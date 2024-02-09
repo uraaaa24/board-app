@@ -1,4 +1,4 @@
-import ConvexClientProvider from '@/app/providers/convex-client-provider'
+import ConvexClientProvider from '@/providers/convex-client-provider'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
