@@ -4,7 +4,7 @@ interface DashboardLayoutProps {
 
 import React from 'react'
 import Navbar from './_components/navbar'
-import OrgSidebar from './_components/orgSidebar'
+import OrgSidebar from './_components/organizationSidebar'
 import Sidebar from './_components/sidebar'
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
