@@ -1,5 +1,7 @@
 'use client'
 
+import ConfirmModal from '@/app/(dashboard)/_components/confirmModal'
+import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { api } from '@/convex/_generated/api'
 import useApiMutation from '@/hooks/useApiMutaion'
@@ -39,10 +41,17 @@ const DropdownMenuActions = ({ children, side, sideOffset, id, title }: ActionsP
           <Link2 className="h-4 w-4 mr-2" />
           Copy board link
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={onDelete} className="p-3 cursor-pointer">
-          <Trash2 className="h-4 w-4 mr-2" />
-          Delete
-        </DropdownMenuItem>
+        <ConfirmModal
+          header="Delete board?"
+          description="This will delete the board and all of its contents."
+          disabled={pending}
+          onConfirm={onDelete}
+        >
+          <Button variant="ghost" className="p-3 cursor-pointer text-sm w-full justify-start font-normal">
+            <Trash2 className="h-4 w-4 mr-2" />
+            Delete
+          </Button>
+        </ConfirmModal>
       </DropdownMenuContent>
     </DropdownMenu>
   )
