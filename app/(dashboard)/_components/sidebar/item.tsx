@@ -1,4 +1,4 @@
-import Hint from '@/components/common/hint'
+import Hint from '@/components/common/tooltips/hint'
 import { cn } from '@/lib/utils'
 import { useOrganization, useOrganizationList } from '@clerk/nextjs'
 import Image from 'next/image'

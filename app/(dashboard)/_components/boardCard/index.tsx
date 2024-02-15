@@ -3,7 +3,7 @@ import { formatDistanceToNow } from 'date-fns'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import DropdownMenuActions from '@/components/common/DropdownMenuActions'
+import DropdownMenuActions from '@/components/common/menu/dropdownMenuActions'
 import { Skeleton } from '@/components/ui/skeleton'
 import { MoreHorizontal } from 'lucide-react'
 import Footer from './footer'
