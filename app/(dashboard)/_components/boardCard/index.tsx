@@ -1,11 +1,15 @@
 import { useAuth } from '@clerk/nextjs'
 import { formatDistanceToNow } from 'date-fns'
+import { MoreHorizontal } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { toast } from 'sonner'
 
 import DropdownMenuActions from '@/components/common/menu/dropdownMenuActions'
 import { Skeleton } from '@/components/ui/skeleton'
-import { MoreHorizontal } from 'lucide-react'
+import { api } from '@/convex/_generated/api'
+import useApiMutation from '@/hooks/useApiMutaion'
+
 import Footer from './footer'
 import Overlay from './overlay'
 
@@ -37,6 +41,17 @@ const BoardCard = ({
     addSuffix: true
   })
 
+  const { mutate: onFavorite, pending: pendingFavorite } = useApiMutation(api.board.favorite)
+  const { mutate: onUnfavorite, pending: pendingUnfavorite } = useApiMutation(api.board.unfavorite)
+
+  const toggleFavorite = () => {
+    if (isFavorite) {
+      onUnfavorite({ id }).catch(() => toast.error('Failed to unfavorite'))
+    } else {
+      onFavorite({ id, organizationId }).catch(() => toast.error('Failed to favorite'))
+    }
+  }
+
   return (
     <Link href={`board/${id}`}>
       <div className="group aspect-[100/127] border rounded-lg flex flex-col justify-between overflow-hidden">
@@ -54,8 +69,8 @@ const BoardCard = ({
           authorLabel={authorLabel}
           createdAtLabel={createdAtLabel}
           isFavorite={isFavorite}
-          onClick={() => {}}
-          disabled={false}
+          onClick={toggleFavorite}
+          disabled={pendingFavorite || pendingUnfavorite}
         />
       </div>
     </Link>

@@ -61,7 +61,7 @@ const BoardList = ({ organizationId, query }: BoardListProps) => {
             authorizationName={board.authorizationName}
             createdAt={board._creationTime}
             organizationId={board.organizationId}
-            isFavorite={false}
+            isFavorite={board.isFavorite}
           />
         ))}
       </div>
