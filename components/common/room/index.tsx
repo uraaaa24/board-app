@@ -7,12 +7,13 @@ import { ReactNode } from 'react'
 interface RoomProps {
   children: ReactNode
   roomId: string
+  fallback: NonNullable<ReactNode> | null
 }
 
-const Room = ({ children, roomId }: RoomProps) => {
+const Room = ({ children, roomId, fallback }: RoomProps) => {
   return (
     <RoomProvider id={roomId} initialPresence={{}}>
-      <ClientSideSuspense fallback={<div>Loading...</div>}>{() => children}</ClientSideSuspense>
+      <ClientSideSuspense fallback={fallback}>{() => children}</ClientSideSuspense>
     </RoomProvider>
   )
 }
