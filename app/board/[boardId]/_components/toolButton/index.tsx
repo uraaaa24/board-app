@@ -1,8 +1,9 @@
 'use client'
 
+import { LucideIcon } from 'lucide-react'
+
 import Hint from '@/components/common/tooltips/hint'
 import { Button } from '@/components/ui/button'
-import { LucideIcon } from 'lucide-react'
 
 interface ToolButtonProps {
   label: string
@@ -21,5 +22,4 @@ const ToolButton = ({ label, icon: Icon, onClick, isActive, isDisabled }: ToolBu
     </Hint>
   )
 }
-
 export default ToolButton

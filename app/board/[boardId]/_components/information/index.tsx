@@ -1,6 +1,7 @@
 'use client'
 
 import { useQuery } from 'convex/react'
+import { Menu } from 'lucide-react'
 import { Poppins } from 'next/font/google'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -12,7 +13,6 @@ import { api } from '@/convex/_generated/api'
 import { Id } from '@/convex/_generated/dataModel'
 import { cn } from '@/lib/utils'
 import { useRenameModal } from '@/store/useRenameModal'
-import { Menu } from 'lucide-react'
 import TabSeparator from './tabSeparator'
 
 interface InformationProps {
@@ -45,7 +45,7 @@ export const Information = ({ boardId }: InformationProps) => {
       </Hint>
       <TabSeparator />
       <Hint label="Edit title" side="bottom" sideOffset={10}>
-        <Button variant="board" onClick={() => onOpen(data._id, data.title)} className="text-base font-normal px-2">
+        <Button variant="board" className="text-base font-normal px-2" onClick={() => onOpen(data._id, data.title)}>
           {data.title}
         </Button>
       </Hint>
@@ -53,7 +53,7 @@ export const Information = ({ boardId }: InformationProps) => {
       <DropdownMenuActions id={data._id} title={data.title} side="bottom" sideOffset={10}>
         <div>
           <Hint label="Main menu" side="bottom" sideOffset={10}>
-            <Button size="icon" variant="board">
+            <Button asChild size="icon" variant="board">
               <Menu />
             </Button>
           </Hint>
