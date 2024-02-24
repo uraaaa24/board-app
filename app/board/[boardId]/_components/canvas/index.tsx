@@ -39,6 +39,10 @@ const Canvas = ({ boardId }: CanvasProps) => {
     setMyPresence({ cursor: current })
   }, [])
 
+  const onPointerLeave = useMutation(({ setMyPresence }) => {
+    setMyPresence({ cursor: null })
+  }, [])
+
   return (
     <main className="h-full w-full relative bg-neutral-100 touch-none">
       <Information boardId={boardId} />
@@ -51,7 +55,7 @@ const Canvas = ({ boardId }: CanvasProps) => {
         redo={history.redo}
         undo={history.undo}
       />
-      <svg className="h-[100vh] w-[100vh]" onWheel={onWheel} onPointerMove={onPointerMove}>
+      <svg className="h-[100vh] w-[100vh]" onWheel={onWheel} onPointerMove={onPointerMove} onPointerLeave={onPointerLeave}>
         <g>
           <CursorsPresence />
         </g>
