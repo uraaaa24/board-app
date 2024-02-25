@@ -84,11 +84,6 @@ const Canvas = ({ boardId }: CanvasProps) => {
     ({}, e) => {
       const point = pointerEventToCanvasPoint(e, camera)
 
-      console.log({
-        point,
-        mode: canvasState.mode
-      })
-
       if (canvasState.mode === CanvasMode.Inserting) {
         insertLayer(canvasState.layerType, point)
       } else {
@@ -115,7 +110,7 @@ const Canvas = ({ boardId }: CanvasProps) => {
         undo={history.undo}
       />
       <svg
-        className="h-[100vh] w-[100vh]"
+        className="h-[100vh] w-[100vw]"
         onWheel={onWheel}
         onPointerMove={onPointerMove}
         onPointerLeave={onPointerLeave}
