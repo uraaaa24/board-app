@@ -2,11 +2,11 @@
 
 import { LiveObject } from '@liveblocks/client'
 import { nanoid } from 'nanoid'
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
-import { useCanRedo, useCanUndo, useHistory, useMutation, useStorage } from '@/liveblocks.config'
+import { useCanRedo, useCanUndo, useHistory, useMutation, useOthersMapped, useStorage } from '@/liveblocks.config'
 import { Camera, CanvasMode, CanvasState, Color, LayerType, Point } from '@/types/canvas'
-import { pointerEventToCanvasPoint } from '@/utils'
+import { pointerEventToCanvasPoint, randomSelectColor } from '@/utils'
 
 import CursorsPresence from '../cursorsPresence'
 import { Information } from '../information'
@@ -97,6 +97,39 @@ const Canvas = ({ boardId }: CanvasProps) => {
     [camera, canvasState, history, insertLayer]
   )
 
+  const selections = useOthersMapped((other) => other.presence.selection)
+
+  const onLayerPointerDown = useMutation(({ self, setMyPresence }, e: React.PointerEvent, layerId: string) => {
+    if (canvasState.mode === CanvasMode.Pencil || canvasState.mode === CanvasMode.Inserting) return
+
+    history.pause()
+    e.preventDefault()
+
+    const point = pointerEventToCanvasPoint(e, camera)
+
+    if (!self.presence.selection.includes(layerId)) {
+      setMyPresence({ selection: [layerId] }, { addToHistory: true })
+    }
+    setCanvasState({
+      mode: CanvasMode.Translating,
+      current: point
+    })
+  }, [])
+
+  const layerIdsToColorSelection = useMemo(() => {
+    const layerIdsToColorSelection: Record<string, string> = {}
+
+    for (const user of selections) {
+      const [connectionId, selection] = user
+
+      for (const layerId of selection) {
+        layerIdsToColorSelection[layerId] = randomSelectColor(connectionId)
+      }
+    }
+
+    return layerIdsToColorSelection
+  }, [selections])
+
   return (
     <main className="h-full w-full relative bg-neutral-100 touch-none">
       <Information boardId={boardId} />
@@ -118,7 +151,12 @@ const Canvas = ({ boardId }: CanvasProps) => {
       >
         <g style={{ transform: `translate(${camera.x}px, ${camera.y}px)` }}>
           {layerIds.map((layerId) => (
-            <LayerPreview key={layerId} id={layerId} onLayerPointerDown={() => {}} selectionColor="#000" />
+            <LayerPreview
+              key={layerId}
+              id={layerId}
+              onLayerPointerDown={onLayerPointerDown}
+              selectionColor={layerIdsToColorSelection[layerId]}
+            />
           ))}
           <CursorsPresence />
         </g>
